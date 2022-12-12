@@ -2,7 +2,36 @@
 
 import argparse
 
+
 parser = argparse.ArgumentParser()
+parser.add_argument("input_number", help="User-provided number to convert", type=str)
+parser.add_argument("--verbose", "-v", help="Enable verbose output", action="store_true")
+
+# specifiers for input/output formats are both required,
+# but their respective variants need to be mutually exclusive
+input_group = parser.add_mutually_exclusive_group(required=False)
+output_group = parser.add_mutually_exclusive_group(required=True)
+
+# just have --input and --output accept a string; one of decimal, binary, hex; check against string content later
+# complain on unexpected input string, but validate against as many as you can think of [h, hex ,hexadecimal, 0x, etc.]
+input_group.add_argument("--input", help="Specify input format [ decimal | binary | hex ]", type=str, action="store")
+output_group.add_argument("--output", help="Specify output format [ decimal | binary | hex ]", type=str, action="store")
+
+# implement pseudo-BSD-esque short options that combine input and output specification
+# e.g. "-dx" or "-dh" for decimal input and hex output
+input_group.add_argument("-id", help="User input is decimal", action="store_true")
+input_group.add_argument("-ib", help="User input is binary", action="store_true")
+input_group.add_argument("-ix", help="User input is hexadecimal", action="store_true")
+input_group.add_argument("-ih", help="User input is hexadecimal", action="store_true")
+
+output_group.add_argument("-od", help="Convert input to decimal", action="store_true")
+output_group.add_argument("-ob", help="Convert input to binary", action="store_true")
+output_group.add_argument("-ox", help="Convert input to hexadecimal", action="store_true")
+output_group.add_argument("-oh", help="Convert input to hexadecimal", action="store_true")
+
+args       = parser.parse_args()
+
+
 # now perform aforementioned input checking
 def check_user_input():
     global input_format
