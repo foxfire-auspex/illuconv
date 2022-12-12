@@ -3,12 +3,82 @@
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("input_number", help="User-provided integer to convert", type=int)
-parser.add_argument("-b", "--to_binary", help="Convert input to binary", action="store_true", default=False)
-parser.add_argument("-d", "--to_decimal", help="Convert input to decimal", action="store_true", default=False)
-args = parser.parse_args()
+# now perform aforementioned input checking
+def check_user_input():
+    global input_format
+    global output_format
+    global user_input
 
-# TODO: Only accept integers (and binary numbers)
+    user_input = args.input_number
+    decimal_matches = ["d", "dec", "decimal", "0d", "0D"]
+    binary_matches = ["b", "bin", "binary", "0b", "0B"]
+    hex_matches = ["h", "hex", "hexadecimal", "x", "0x", "0X"]
+    format_error = "Please provide any of: \n \"dec\", \"decimal\" | \"bin\", \"binary\" | \"hex\", \"hexadecimal\""
+
+    # you might recognize this as a fake match/case statement
+    # yeah, Python versions prior to 3.10 didn't provide those
+    if args.input is not None:
+        if args.input in decimal_matches:
+            input_format = "decimal"
+        elif args.input in binary_matches:
+            input_format = "binary"
+        elif args.input in hex_matches:
+            input_format = "hex"
+        else:
+            input_format = "invalid"
+    elif args.id:
+        input_format = "decimal"
+    elif args.ib:
+        input_format = "binary"
+    elif args.ix or args.ih:
+        input_format = "hex"
+    else:
+        # it is a reasonable assumption most users might mean decimal input when they don't instinctively specify
+        input_format = "decimal"
+
+    # handle output separately, because pertaining options may very well drift over time
+    # also, since this script is written for illustrative purposes, this solution yields a lot of quasi-duplicate code,
+    # but also avoids a set of loops with compound conditions, lists of variables and the like - it's just simpler
+    if args.output is not None:
+        if args.output in decimal_matches:
+            output_format = "decimal"
+        elif args.output in binary_matches:
+            output_format = "binary"
+        elif args.output in hex_matches:
+            output_format = "hex"
+        else:
+            output_format = "invalid"
+    elif args.od:
+        output_format = "decimal"
+    elif args.ob:
+        output_format = "binary"
+    elif args.ox or args.oh:
+        output_format = "hex"
+    else:
+        output_format = "invalid"
+
+    # yell at the user if they fail to provide usable format specs
+    if input_format == "invalid":
+        print("Input:", format_error)
+    elif output_format == "invalid":
+        print("Output:", format_error)
+
+    # check whether we were lied to all along
+    if input_format == "decimal":
+        try:
+            user_input = int(user_input, 10)
+        except:
+             print("You filthy scoundrel!")
+    elif input_format == "binary":
+        try:
+            user_input = int(user_input, 2)
+        except:
+             print("You filthy scoundrel!")
+    elif input_format == "hex":
+        try:
+            user_input = int(user_input, 16)
+        except:
+             print("You filthy scoundrel!")
 
 
 def binary_convert(number_to_convert: int) -> list:
