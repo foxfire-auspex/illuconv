@@ -40,7 +40,32 @@ def decimal_convert(number_to_convert: int) -> int:
             loopvar += 1
     return metastore
 
-if args.to_binary:
-    print(binary_convert(args.input_number))
-elif args.to_decimal:
-    print(decimal_convert(args.input_number))
+
+def hex_convert(number_to_convert: int) -> str:
+    hex_table = {
+        0: '0',
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+        5: '5',
+        6: '6',
+        7: '7',
+        8: '8',
+        9: '9',
+        10: 'A',
+        11: 'B',
+        12: 'C',
+        13: 'D',
+        14: 'E',
+        15: 'F'
+    }
+
+    hex_store = ""
+    while number_to_convert > 0:
+        remainder = number_to_convert % 16
+        hex_store = hex_table[remainder] + hex_store
+        number_to_convert = number_to_convert // 16
+    return hex_store
+
+
