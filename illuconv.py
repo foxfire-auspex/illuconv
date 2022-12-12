@@ -168,3 +168,33 @@ def hex_convert(number_to_convert: int) -> str:
     return hex_store
 
 
+def generate_verbose_output(): 
+    if input_format == "decimal":
+        print("Input:", input_format)
+    elif input_format == "binary":
+        print("Input:", input_format)
+    elif input_format == "hex":
+        print("Input:", input_format)
+
+    if output_format == "decimal":
+        print("Output:", output_format)
+    elif output_format == "binary":
+        print("Output:", output_format)
+    elif output_format == "hex":
+        print("Output:", output_format)
+
+
+def cli_output():
+    check_user_input()
+    if args.verbose:
+        generate_verbose_output
+
+    if output_format == "decimal":
+        print(user_input)
+    elif output_format == "binary":
+        print(binary_convert(user_input))
+    elif output_format == "hex":
+        print(hex_convert(user_input))
+
+
+cli_output()
