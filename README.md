@@ -16,11 +16,9 @@ options:
 
   -id              User input is decimal
   -ib              User input is binary
-  -ix              User input is hexadecimal
-  -ih              User input is hexadecimal
+  -ix / -ih        User input is hexadecimal
 
   -od              Convert input to decimal
   -ob              Convert input to binary
-  -ox              Convert input to hexadecimal
-  -oh              Convert input to hexadecimal
+  -ox / -oh        Convert input to hexadecimal
 ```
